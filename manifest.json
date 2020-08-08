@@ -1,8 +1,11 @@
 {
+  "manifest_version": 2,
+
   "name": "reading helper",
   "version": "1.0",
-  "description": "this extension helps you to read texts",
-  "permissions": ["storage"],
+  "description": "this extension helps you to read texts on Chrome",
+
+  "permissions": ["activeTab", "declarativeContent", "storage"],
   "background": {
     "scripts": ["background.js"],
     "persistent": false
@@ -21,6 +24,5 @@
     "32": "img/icon32.png",
     "48": "img/icon48.png",
     "128": "img/icon128.png"
-  },
-  "manifest_version": 2
+  }
 }
