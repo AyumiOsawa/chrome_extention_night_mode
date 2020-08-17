@@ -1,17 +1,18 @@
 {
   "manifest_version": 2,
 
-  "name": "reading helper",
+  "name": "Reading Helper",
   "version": "1.0",
   "description": "this extension helps you to read texts on Chrome",
 
-  "permissions": ["activeTab", "declarativeContent", "storage"],
+  "permissions": ["activeTab", "declarativeContent", "storage", "tabs"],
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["js/background.js"],
     "persistent": false
   },
-  "page_action": {
+  "browser_action": {
     "default_popup": "popup.html",
+    "default_title": "Reading Helper",
     "default_icon": {
       "16": "img/icon16.png",
       "32": "img/icon32.png",
