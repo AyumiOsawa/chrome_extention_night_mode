@@ -1,31 +1,41 @@
 'use strict';
 
+// set the button name
 chrome.storage.sync.get(['isOn'], (result) => {
   if (result.isOn === undefined || !result.isOn) {
     document.getElementById('btn').value = 'Turn on';
   } else if (result.isOn) {
     document.getElementById('btn').value = 'Turn off';
   };
+  chrome.storage.sync.set({
+    isOn: !result.isOn
+  })
+});
+
+// initial setup
+chrome.tabs.executeScript(null, {
+  file: 'styling/setup.js'
+});
+chrome.tabs.insertCSS(null, {
+  file: 'styling/night_mode.css'
+});
+
+// setup upon a page change
+chrome.tabs.onUpdated.addListener( () => {
+  chrome.tabs.executeScript(null, {
+    file: 'styling/setup.js'
+  });
+  chrome.tabs.insertCSS(null, {
+    file: 'styling/night_mode.css'
+  });
 });
 
 
 const handleClick = () => {
-  chrome.storage.sync.get(['isOn'], (result) => {
-    if(result.isOn) {
-      chrome.tabs.executeScript(null, {
-        file: 'styling/off.js'
-      });
-    } else if (!result.isOn) {
-      chrome.tabs.executeScript(null, {
-        file: 'styling/on.js'
-      });
-    }
-    chrome.storage.sync.set({
-      isOn: !result.isOn
-    })
-
-    window.close();
-  })
+  chrome.tabs.executeScript(null, {
+    file: 'switching.js'
+  });
+  window.close();
 };
 
 

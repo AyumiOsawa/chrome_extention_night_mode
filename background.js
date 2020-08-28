@@ -1,6 +1,8 @@
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.sync.set({
-    isOn: false
+    isOn: false,
+    default_bg: [],
+    default_color: []
   })
 });
 
