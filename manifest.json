@@ -5,7 +5,8 @@
   "version": "1.0",
   "description": "this extension helps you to read texts on Chrome",
   "permissions": [
-      "activeTab"
+      "activeTab",
+      "storage"
     ],
   "browser_action": {
     "default_popup": "popup.html",
@@ -22,5 +23,9 @@
     "32": "img/icon32.png",
     "48": "img/icon48.png",
     "128": "img/icon128.png"
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
   }
 }

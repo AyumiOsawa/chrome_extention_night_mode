@@ -1,16 +1,19 @@
-chrome.runtime.onInstalled.addListener(function() {
+chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.sync.set({
-                            'bg_color': 'black',
-                            'color': 'white'
-                          });
-
-  // chrome.declarativeContent.onPageChanged.removeRules(undefined, () => {
-  //   chrome.declarativeContent.onPageChanged.addRules([{
-  //     conditions: [new chrome.declarativeContent.PageStateMatcher({
-  //       pageUrl: {hostEquals: 'developer.chrome.com'},
-  //     })
-  //     ],
-  //     actions: [new chrome.declarativeContent.ShowPageAction()]
-  //   }]);
-  // });
+    isOn: false
+  })
 });
+
+// chrome.runtime.onMessage.addListener(request => {
+//   if(request.message === 'setup') {
+//     // do some set up here for a new page
+//     const body = document.querySelector('body');
+//     chrome.storage.sync.set({
+//       body: body
+//     }, ())
+//   }
+// })
+
+// chrome.runtime.onMessage.addListener(function(msg, _, sendResponse) {
+//   log("Got message from background page: " + msg);
+// });
