@@ -1,5 +1,11 @@
 console.log('night_mode.js');
 
-document.querySelectorAll('*').forEach(elm => {
-  elm.classList.toggle("night_mode");
-})
+chrome.storage.sync.get(['night_mode'], result => {
+  document.querySelectorAll('*').forEach(elm => {
+    if (result.night_mode) {
+      elm.classList.add('night_mode');
+    } else {
+      elm.classList.remove('night_mode');
+    }
+  });
+});
