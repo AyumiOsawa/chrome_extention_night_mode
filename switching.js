@@ -1,4 +1,4 @@
-console.log('night_mode.js');
+console.log('swit.js');
 
 chrome.storage.sync.get(['night_mode'], result => {
   document.querySelectorAll('*').forEach(elm => {

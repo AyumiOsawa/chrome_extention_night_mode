@@ -1,52 +1,49 @@
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.sync.set({
-    night_mode: false,
-    default_bg: [],
-    default_color: [],
-    current_url: ''
-  })
-});
-
-// re-setup upon a page change
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  chrome.storage.sync.get(['current_url', 'night_mode'], result => {
-    if(changeInfo.url !== result.current_url) {
-      // re-setup
-      chrome.tabs.executeScript(null, {
-        file: 'styling/setup.js'
-      });
-      chrome.tabs.insertCSS(null, {
-        file: 'styling/night_mode.css'
-      });
-      chrome.tabs.query({active: true, currentWindow: true}, tabs => {
-        chrome.storage.sync.set({
-          current_url: tabs[0].url
-        });
-      });
-    };
-
-    if(result.night_mode) {
-      // turn on the night mode
-      chrome.tabs.executeScript(null, {
-        file: 'switching.js'
-      });
-    };
+    night_mode: false
   });
 });
 
-// TO DO: use one of the chrome.tabs methods to detect the main active tab change and run setup and styling insertion.
-
-
-// chrome.runtime.onMessage.addListener(request => {
-//   if(request.message === 'setup') {
-//     // do some set up here for a new page
-//     const body = document.querySelector('body');
-//     chrome.storage.sync.set({
-//       body: body
-//     }, ())
-//   }
-// })
-
-// chrome.runtime.onMessage.addListener(function(msg, _, sendResponse) {
-//   log("Got message from background page: " + msg);
+// setup upon going to another page
+// chrome.tabs.onUpdated.addListener(() => {
+//   chrome.tabs.insertCSS(null, {
+//     file: 'styling/night_mode.css'
+//   });
+//   chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+//     chrome.tabs.sendMessage(tabs[0].id, {
+//       message: 'setup'
+//     });
+//   });
 // });
+
+// setup upon returning to the previous page
+
+
+
+// // setup upon a tab change (NEED CHECK)
+// chrome.tabs.onActivated.addListener(() => {
+//   chrome.tabs.executeScript(null, {
+//     file: 'setup.js'
+//   });
+// });
+//
+// // setup upon a window change (NEED CHECK)
+// chrome.windows.onFocusChanged.addListener(() => {
+//   chrome.tabs.executeScript(null, {
+//     file: 'setup.js'
+//   });
+// });
+//
+// // setup upon opening a new tab
+// chrome.tabs.onCreated.addListener(() => {
+//   chrome.tabs.executeScript(null, {
+//     file: 'setup.js'
+//   });
+// })
+//
+// // setup upon opening a new window
+// chrome.windows.onCreated.addListener(() => {
+//   chrome.tabs.executeScript(null, {
+//     file: 'setup.js'
+//   });
+// })
