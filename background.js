@@ -1,49 +1,24 @@
+'use strict';
+
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.storage.sync.set({
-    night_mode: false
-  });
+  chrome.storage.sync.set({night_mode: false, contrast: "high"});
+  // console.log('onInstalled');
 });
 
+const setup = (tabId) => {
+  // alert("setup")
+  // chrome.tabs.insertCSS(tabId, {file: 'styling/night_mode.css'}, () => {
+  //   chrome.tabs.executeScript(tabId, {file: 'content_script.js'}, () => {
+      chrome.tabs.sendMessage(tabId, {message: 'toggle'});
+  //   });
+  // });
+};
+
 // setup upon going to another page
-// chrome.tabs.onUpdated.addListener(() => {
-//   chrome.tabs.insertCSS(null, {
-//     file: 'styling/night_mode.css'
-//   });
-//   chrome.tabs.query({active: true, currentWindow: true}, tabs => {
-//     chrome.tabs.sendMessage(tabs[0].id, {
-//       message: 'setup'
-//     });
-//   });
-// });
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  setup(tabId);
+});
 
-// setup upon returning to the previous page
-
-
-
-// // setup upon a tab change (NEED CHECK)
-// chrome.tabs.onActivated.addListener(() => {
-//   chrome.tabs.executeScript(null, {
-//     file: 'setup.js'
-//   });
-// });
-//
-// // setup upon a window change (NEED CHECK)
-// chrome.windows.onFocusChanged.addListener(() => {
-//   chrome.tabs.executeScript(null, {
-//     file: 'setup.js'
-//   });
-// });
-//
-// // setup upon opening a new tab
-// chrome.tabs.onCreated.addListener(() => {
-//   chrome.tabs.executeScript(null, {
-//     file: 'setup.js'
-//   });
-// })
-//
-// // setup upon opening a new window
-// chrome.windows.onCreated.addListener(() => {
-//   chrome.tabs.executeScript(null, {
-//     file: 'setup.js'
-//   });
-// })
+chrome.tabs.onActivated.addListener(activeInfo => {
+  setup(activeInfo.tabId);
+});

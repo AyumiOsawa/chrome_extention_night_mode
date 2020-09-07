@@ -5,29 +5,63 @@
         h1 {
           font-weight: bold;
           color: gray;
+          text-align: center;
         }
-        #btn {
+        .btn {
           height: 30px;
           width: 70px;
-          margin-bottom: 1rem;
+          margin-bottom: 0.5rem;
           outline: none;
           border-radius: 5px;
         }
-        #body {
+        .body {
           width: 200px;
           border-radius: 50%;
           background-color: #333333;
+        }
+        .form {
           display: flex;
           flex-flow: column;
           align-items: center;
+        }
+        .contrast__container {
+          margin-bottom: 0.5rem;
+        }
+        .contrast__option {
+          margin: 0 0.3rem 0.3rem 0.3rem;
+          display: flex;
+        }
+        .contrast__option__label {
+          color: #cccccc;
+          font-size: 1rem;
+          font-weight: bold;
+          margin-left: 0.5rem;
         }
     </style>
     <script type="text/javascript" src="popup.js">
     </script>
     <title>Reading Helper</title>
   </head>
-  <body id="body">
-    <h1 id="title">Night Mode</h1>
-    <input id="btn" type="submit" value="">
+  <body class="body">
+    <form class="form" id="form">
+      <h1 id="title">Night Mode</h1>
+      <button id="btn" class="btn" type="submit"></button>
+
+      <h1 id="title">Contrast</h1>
+      <div class="contrast__container">
+        <div class="contrast__option">
+          <input class="option" type="radio" id="contrast_high" name="contrast" value="high">
+          <label class="contrast__option__label" for="contrast_high">high</lable>
+        </div>
+        <div class="contrast__option">
+          <input class="option" type="radio" id="contrast_medium" name="contrast" value="medium">
+          <label class="contrast__option__label" for="contrast_medium">medium</lable>
+        </div>
+        <div class="contrast__option">
+          <input class="option" type="radio" id="contrast_low" name="contrast" value="low">
+          <label class="contrast__option__label" for="contrast_low">low</lable>
+        </div>
+      </div>
+    </form>
   </body>
 </html>
