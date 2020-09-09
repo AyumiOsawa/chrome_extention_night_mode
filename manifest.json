@@ -26,8 +26,7 @@
     "128": "img/icon128.png"
   },
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "page": "background.html"
   },
   "content_scripts": [
   {

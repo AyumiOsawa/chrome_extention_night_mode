@@ -3,7 +3,7 @@
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.sync.set({
     night_mode: false,
-    contrast: "high"
+    contrast: constants.contrast_options[0]
   });
 });
 
