@@ -54,26 +54,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // EVENT: CLICK
   const handleButtonClick = () => {
-    // send a message to the content script
-    chrome.tabs.query({active: true, currentWindow: true}, tabs => {
-      chrome.tabs.sendMessage(tabs[0].id, {message: 'toggle'}, response => console.log(response.response_message));
-    });
-
+    chrome.runtime.sendMessage({message: 'switch icon'});
     chrome.storage.sync.get(['night_mode', 'contrast'], result => {
-      let new_state = {
-          night_mode: !result.night_mode
-        };
-      // get the contrast option
+
+      let new_state = { night_mode : !result.night_mode};
       if (!result.night_mode) {
+        // get the contrast option
         const selected = Object.values(document.forms[0].elements).find(
           option => option.checked === true);
         new_state.contrast = selected.value;
       };
-      // update the states
-      chrome.storage.sync.set(new_state, () => window.close());
+      chrome.storage.sync.set(new_state, () => {
+        // send a message to the content script
+        chrome.tabs.query({active: true, currentWindow: true}, tabs => {
+          chrome.tabs.sendMessage(tabs[0].id, {message: 'toggle'});
+        });
+        window.close();
+      });
     });
   };
-
 
   btn.addEventListener('click', handleButtonClick);
 });

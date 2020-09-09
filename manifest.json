@@ -7,23 +7,24 @@
   "permissions": [
       "activeTab",
       "storage",
-      "background"
+      "background",
+      "tabs"
     ],
   "browser_action": {
     "default_popup": "popup.html",
     "default_title": "Reading Helper",
     "default_icon": {
-      "16": "img/icon16.png",
-      "32": "img/icon32.png",
-      "48": "img/icon48.png",
-      "128": "img/icon128.png"
+      "16": "img/icon_cat_16_closed.png",
+      "32": "img/icon_cat_32_closed.png",
+      "48": "img/icon_cat_48_closed.png",
+      "128": "img/icon_cat_128_closed.png"
     }
   },
   "icons": {
-    "16": "img/icon16.png",
-    "32": "img/icon32.png",
-    "48": "img/icon48.png",
-    "128": "img/icon128.png"
+    "16": "img/icon_cat_16.png",
+    "32": "img/icon_cat_32.png",
+    "48": "img/icon_cat_48.png",
+    "128": "img/icon_cat_128.png"
   },
   "background": {
     "page": "background.html"
