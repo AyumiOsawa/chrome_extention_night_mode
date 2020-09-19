@@ -15,13 +15,18 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         if (result.night_mode) {
           elm.classList.add('night_mode--' + result.contrast);
         };
+        // adjust the brightness of the image
+        if (elm.nodeName === "IMG") {
+          result.night_mode ? elm.style.filter = `brightness(${constants.img_brightness[result.contrast]})`
+          : elm.removeAttribute("style", `filter : ${constants.img_brightness[result.contrast]}`);
+        };
       });
 
       // send a message back
       if(result.night_mode) {
-        sendResponse({response_message: 'night mode'})
+        sendResponse({response_message: 'night mode'});
       } else {
-        sendResponse({response_message: 'night mode turned off'})
+        sendResponse({response_message: 'night mode turned off'});
       };
     });
   };
