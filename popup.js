@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
       chrome.storage.sync.set(new_state, () => {
         // send a message to the content script
         chrome.tabs.query({active: true, currentWindow: true}, tabs => {
-          chrome.tabs.sendMessage(tabs[0].id, {message: 'toggle'});
+          chrome.tabs.sendMessage(tabs[0].id, {message: 'page set up'});
         });
         window.close();
       });
