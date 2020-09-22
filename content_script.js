@@ -11,14 +11,22 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             elm.classList.remove('night_mode--' + option);
           }
         });
-        // add a new class name if night mode is on
+
         if (result.night_mode) {
+          // add a new class name if night mode is on
           elm.classList.add('night_mode--' + result.contrast);
         };
-        // adjust the brightness of the image
+
+        // adjust the brightness of <img>
         if (elm.nodeName === "IMG") {
           result.night_mode ? elm.style.filter = `brightness(${constants.img_brightness[result.contrast]})`
           : elm.removeAttribute("style", `filter : ${constants.img_brightness[result.contrast]}`);
+        };
+
+        // adjust the opacity of the background images
+        if (elm.style.backgroundImage !== "") {
+          result.night_mode ? elm.style.opacity = constants.bg_opacity[result.contrast]
+          : elm.style.opacity = 1
         };
       });
 
