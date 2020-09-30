@@ -1,14 +1,15 @@
 .night_mode--high {
-  background-color: black !important;
   color: white !important;
 }
 
 .night_mode--medium {
-  background-color: black !important;
   color: #cccccc !important;
 }
 
 .night_mode--low {
-  background-color: black !important;
   color: #555555 !important;
+}
+
+.night_mode__bg_color {
+  background-color: black !important;
 }

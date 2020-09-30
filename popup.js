@@ -54,9 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // EVENT: CLICK
   const handleButtonClick = () => {
+    console.log('clicked');
     chrome.runtime.sendMessage({message: 'switch icon'});
     chrome.storage.sync.get(['night_mode', 'contrast'], result => {
-
       let new_state = { night_mode : !result.night_mode};
       if (!result.night_mode) {
         // get the contrast option
@@ -64,10 +64,11 @@ document.addEventListener('DOMContentLoaded', () => {
           option => option.checked === true);
         new_state.contrast = selected.value;
       };
+
       chrome.storage.sync.set(new_state, () => {
         // send a message to the content script
         chrome.tabs.query({active: true, currentWindow: true}, tabs => {
-          chrome.tabs.sendMessage(tabs[0].id, {message: 'page set up'});
+          chrome.tabs.sendMessage(tabs[0].id, {message: 'toggle'});
         });
         window.close();
       });

@@ -8,7 +8,7 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 const setup = (tabId) => {
-  chrome.tabs.sendMessage(tabId, {message: 'page set up'});
+  chrome.tabs.sendMessage(tabId, {message: 'toggle'});
 };
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
