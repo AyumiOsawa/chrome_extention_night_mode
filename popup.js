@@ -54,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // EVENT: CLICK
   const handleButtonClick = () => {
-    console.log('clicked');
     chrome.runtime.sendMessage({message: 'switch icon'});
     chrome.storage.sync.get(['night_mode', 'contrast'], result => {
       let new_state = { night_mode : !result.night_mode};

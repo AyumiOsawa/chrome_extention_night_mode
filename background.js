@@ -12,6 +12,7 @@ const setup = (tabId) => {
 };
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  console.log('onUpdated')
   setup(tabId);
 });
 
