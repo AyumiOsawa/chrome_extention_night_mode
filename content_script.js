@@ -14,15 +14,13 @@ const _cleanUp = (elm, contrast) => {
   const bg_image = document.defaultView.getComputedStyle(elm).getPropertyValue('background-image');
   if (bg_image !== '' && bg_image !== 'none') {
     elm.classList.remove('night_mode__bg_color');
-    // elm.removeAttribute('style', 'mix-blend-mode: multiply');
-    // elm.setAttribute('style', 'opacity: 0');
+    elm.removeAttribute('style', 'mix-blend-mode: multiply');
+    elm.setAttribute('style', 'opacity: 1');
   };
 };
 
 const _addStyle = (elm, contrast) => {
   // add the class name to the element other than following cases
-  // console.log('_addStyle is called');
-
   switch (elm.tagName) {
     case 'HEAD' :
     case 'SCRIPT' :
@@ -34,7 +32,6 @@ const _addStyle = (elm, contrast) => {
     case 'IMG' :
       elm.style.opacity = `${constants.opacity[contrast]}`;
       elm.classList.add('night_mode--bg_color' + contrast);
-      // console.log('IMG, opacity and classList changed: ', elm);
       break;
     default :
       elm.classList.add('night_mode--' + contrast);
