@@ -20,6 +20,8 @@ const _cleanUp = (elm, contrast) => {
 };
 
 const _addStyle = (elm, contrast) => {
+  console.log('adding style to element:', elm.tagName);
+  console.log('type:', typeof elm);
   // add the class name to the element other than following cases
   switch (elm.tagName) {
     case 'HEAD' :
@@ -44,12 +46,10 @@ const _addStyle = (elm, contrast) => {
       const bg_image = document.defaultView.getComputedStyle(elm).getPropertyValue('background-image');
 
       if (bg_image !== '' && bg_image !== 'none') {
-        // console.log('grabbed bg image value of elm: ', bg_image);
-        // elm.classList.add('night_mode__bg_color');
-        // elm.setAttribute('style', 'mix-blend-mode: multiply');
+        elm.classList.add('night_mode__bg_color');
+        elm.setAttribute('style', 'mix-blend-mode: multiply');
         elm.style.opacity = `${constants.opacity[contrast]}`;
       };
-      // console.log('General Elm, classname, opacity, bg_image changed: ', elm);
   };
 };
 
@@ -65,26 +65,33 @@ const toggleNightMode = (result) => {
   // coloring the other elements
   body.querySelectorAll('*').forEach(elm => {
     _cleanUp(elm, result.contrast);
-    if (result.night_mode) {
+    if (result.night_mode && elm) {
       _addStyle(elm, result.contrast);
     };
     // TODO: adjust the color of video, canvas, iframe
   });
 
   // set up/remove a mutation observer to watch the DOM change
-  _observeDOMchange(result.night_mode, observer);
+  _observeDOMChange(result.night_mode, observer);
 };
 
+// TODO: apply the night mode style to the new elements got by ajax
+// ajax dom content loaded?
+// text color should be adjusted too
 const observer = new MutationObserver(mutations => {
-  console.log('mutation observer callback');
-  if(mutations || mutations.length > 0) {
+  if(mutations && mutations.length > 0) {
     chrome.storage.sync.get(['night_mode', 'contrast'], result => {
-      _recursivelyApplyStyle(mutations, result.contrast);
+      mutations.forEach((mutation) => {
+        console.log('mutation detected!');
+        // console.log('mutation.target',mutation.target);
+        // console.log('mutation.target.childNodes',mutation.target.childNodes);
+        _recursivelyApplyStyle(mutation.target, result.contrast);
+      });
     });
   }
 });
 
-const _observeDOMchange = (night_mode, observer) => {
+const _observeDOMChange = (night_mode, observer) => {
   if(night_mode) {
     observer.observe(document, {subtree: true, childList: true});
   } else {
@@ -93,23 +100,26 @@ const _observeDOMchange = (night_mode, observer) => {
   }
 }
 
-const _recursivelyApplyStyle = (elements, contrast) => {
-  // console.log('_recursivelyApplyStyle is running');
-  elements.forEach(element => {
-    if (element.target) {
-      if (element.target.childNodes.length === 0) {
-        _addStyle(element.target, contrast);
-      } else {
-        _addStyle(element.target, contrast);
-        _recursivelyApplyStyle(element.target.childNodes, contrast);
-      }
-    }
-  });
+const _recursivelyApplyStyle = (element, contrast) => {
+  console.log('inside _recursivelyApplyStyle');
+  console.log('element.target',element);
+  console.log('element.target.childNodes',element.childNodes);
+  console.log('hasChildren',element.childNodes.length !== 0);
+
+  if (typeof element === "undefined") {
+    return;
+  }
+  _addStyle(element, contrast);
+  const hasChildren = element.childNodes.length !== 0;
+  if (hasChildren) {
+    element.childNodes.forEach(childElm => {
+      _recursivelyApplyStyle(childElm, contrast);
+    });
+  }
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.message === 'toggle') {
-    // console.log('message: ', request.message);
     chrome.storage.sync.get(['night_mode', 'contrast'], result => {
       toggleNightMode(result);
       if (result.night_mode) {
